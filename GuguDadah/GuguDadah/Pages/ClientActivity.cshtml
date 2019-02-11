@@ -1,0 +1,160 @@
+﻿@page
+@model GuguDadah.Pages.ClientActivity
+@{
+    ViewData["Title"] = "Trabalhos";
+}
+
+
+@section head
+    {
+    <link href="~/lib/bootstrap/dist/css/star-rating.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="~/lib/bootstrap/dist/css/theme.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="~/lib/bootstrap/dist/css/cards.css" media="all" rel="stylesheet" type="text/css" />
+
+}
+
+@section Scripts
+    {
+    <script src="~/lib/bootstrap/dist/js/star-rating.js" type="text/javascript"></script>
+    <script src="~/lib/bootstrap/dist/js/theme.js"></script>
+    <script>
+        $(document).on('ready', function () {
+            $('.kv-ltr-theme-svg-star').rating({
+                hoverOnClear: false,
+                theme: 'krajee-svg'
+            });
+        });
+    </script>
+}
+
+@if (Model.ClientHistoryList != null) {
+
+    <h4>Histórico de trabalhos</h4>
+    <hr />
+
+    if (!Model.ClientHistoryList.Any()) {
+        <h5>Sem trabalhos.</h5>
+
+    }
+
+    <div class="container-fluid">
+        <div class="row">
+            @foreach (var item in Model.ClientHistoryList) {
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="panel panel-blue userlist">
+                        <div class="panel-body text-center">
+                            <div class="userprofile">
+                                <div class="userpic"> <img src="data:image/jpeg;base64,@System.Convert.ToBase64String(item.Professional.Avatar)" alt="" class="userpicimg"> </div>
+                                <h3 class="username">@item.Professional.Name</h3>
+                                @{
+                                    var rating = Math.Round((float)item.Professional.Rating, 1);
+                                    <input type="hidden" class="rating" disabled="disabled" value="@rating" displayOnly="true" data-show-clear="false" data-show-caption="false" data-size="xs" />
+                                }
+                            </div>
+                            <br>
+                            <p><strong>Data:</strong> @item.Date</p>
+                            <p><strong>Preço: </strong> @item.Cost €</p>
+                            <p><strong>Pago: </strong> @item.Payment</p>
+
+                            <form asp-page-handler="RateOffer" asp-route-id="@item.Id" method="post">
+                                <div class="panel-footer">
+                                    @{
+                                        var rating1 = 0.0F;
+                                        if (item.Rating != 0.0F && item.Rating != null) {
+                                            rating1 = (float)Math.Round((float)item.Rating, 1);
+                                        }
+
+                                        if (item.Rating == 0.0f || item.Rating == null) {
+                                            <input type="hidden" class="rating" asp-for="Rating" data-show-clear="false" data-show-caption="false" data-size="xs" />
+                                            <input type="submit" class="btn btn btn-info" value="Avaliar" />
+                                        } else {
+                                            <input type="hidden" class="rating" disabled="disabled" value="@rating1" displayOnly="true" data-show-clear="false" data-show-caption="false" data-size="xs" />
+                                        }
+                                    }
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+@if (Model.ClientPendentList != null) {
+
+    <h4>Trabalhos pendentes</h4>
+    <hr />
+
+    if (!Model.ClientPendentList.Any()) {
+        <h5>Sem trabalhos.</h5>
+
+    }
+
+    <div class="container-fluid">
+        <div class="row">
+            @foreach (var item in Model.ClientPendentList) {
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="panel panel-blue userlist">
+                        <div class="panel-body text-center">
+                            <div class="userprofile">
+                                <div class="userpic"> <img src="data:image/jpeg;base64,@System.Convert.ToBase64String(item.Professional.Avatar)" alt="" class="userpicimg"> </div>
+                                <h3 class="username">@item.Professional.Name</h3>
+                                @{
+                                    var rating = Math.Round((float)item.Professional.Rating, 1);
+                                    <input type="hidden" class="rating" disabled="disabled" value="@rating" displayOnly="true" data-show-clear="false" data-show-caption="false" data-size="xs" />
+                                }
+                            </div>
+                            <br>
+                            <p><strong>Data:</strong> @item.Date</p>
+                            <p><strong>Duração:</strong> @item.Duration horas</p>
+                            <p><strong>Preço:</strong> @item.Cost €</p>
+                            <p><strong>Pago:</strong> @item.Payment</p>
+                            <p><strong>Morada:</strong> @item.Address</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+
+@if (Model.ClientOffersList != null) {
+
+    <h4>Ofertas de trabalho</h4>
+    <hr />
+
+    if (!Model.ClientOffersList.Any()) {
+        <h5>Sem trabalhos.</h5>
+
+    }
+
+    <div class="container-fluid">
+        <div class="row">
+            @foreach (var item in Model.ClientOffersList) {
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="panel panel-blue userlist">
+                        <div class="panel-body text-center">
+                            <div class="userprofile">
+                                <div class="userpic"> <img src="data:image/jpeg;base64,@System.Convert.ToBase64String(item.Professional.Avatar)" alt="" class="userpicimg"> </div>
+                                <h3 class="username">@item.Professional.Name</h3>
+                                @{
+                                    var rating = Math.Round((float)item.Professional.Rating, 1);
+                                    <input type="hidden" class="rating" disabled="disabled" value="@rating" displayOnly="true" data-show-clear="false" data-show-caption="false" data-size="xs" />
+                                }
+                            </div>
+                            <br>
+                            <p><strong>Data:</strong> @item.Date.ToShortDateString()</p>
+                            <p><strong>Pago:</strong> @item.Payment</p>
+                            <p><strong>Preço:</strong> @item.Cost €</p>
+                            <div class="panel-footer">
+                                <a class="btn btn-primary btn-block" asp-page-handler="CancelOffer" asp-route-id="@item.Id">Cancelar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}

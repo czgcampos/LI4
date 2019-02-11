@@ -1,0 +1,295 @@
+﻿@page
+@model GuguDadah.Pages.AdminOverview
+@{
+    ViewData["Title"] = "Visão Geral";
+
+}
+
+@section head
+    {
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
+
+}
+
+@section Scripts
+    {
+
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+    <script>
+        $('#clients').DataTable({
+            paging: true,
+            "columnDefs": [{
+                "targets": 5,
+                "searchable": false,
+                "orderable": false,
+                "visible": true
+            }],
+            "language": {
+                "lengthMenu": "Mostrar _MENU_ linhas por página",
+                "zeroRecords": "Nada encontrado.",
+                "info": "A mostrar a página _PAGE_ de _PAGES_",
+                "infoEmpty": "Sem linhas disponíveis",
+                "infoFiltered": "(filtrado de _MAX_ linhas)",
+                "search": "Procurar: ",
+                "paginate": {
+                    "previous": "Anterior",
+                    "next": "Seguinte"
+                }
+            }
+        });
+    </script>
+
+    <script>
+        $('#works').DataTable({
+            paging: true,
+            "columnDefs": [{
+                "targets": 5,
+                "searchable": false,
+                "orderable": false,
+                "visible": true
+            }],
+            "language": {
+                "lengthMenu": "Mostrar _MENU_ linhas por página",
+                "zeroRecords": "Nada encontrado.",
+                "info": "A mostrar a página _PAGE_ de _PAGES_",
+                "infoEmpty": "Sem linhas disponíveis",
+                "infoFiltered": "(filtrado de _MAX_ linhas)",
+                "search": "Procurar: ",
+                "paginate": {
+                    "previous": "Anterior",
+                    "next": "Seguinte"
+                }
+            }
+        });
+    </script>
+    <script>
+        $('#professionals').DataTable({
+            paging: true,
+            "columnDefs": [{
+                "targets": 7,
+                "searchable": false,
+                "orderable": false,
+                "visible": true
+            }],
+            "language": {
+                "lengthMenu": "Mostrar _MENU_ linhas por página",
+                "zeroRecords": "Nada encontrado.",
+                "info": "A mostrar a página _PAGE_ de _PAGES_",
+                "infoEmpty": "Sem linhas disponíveis",
+                "infoFiltered": "(filtrado de _MAX_ linhas)",
+                "search": "Procurar: ",
+                "paginate": {
+                    "previous": "Anterior",
+                    "next": "Seguinte"
+                }
+            }
+        });
+    </script>
+}
+
+@if (Model.ClientsList != null) {
+
+    <h4>Lista de Clientes</h4>
+    <hr />
+
+    <div class="container-fluid">
+        <div class="table-responsive">
+            <table id="clients" class="row-border" style="width:100%">
+                <thead>
+                    <tr>
+                        <th class="text-center"><span>Nickname</span></th>
+                        <th class="text-center"><span>Nome</span></th>
+                        <th class="text-center"><span>Email</span></th>
+                        <th class="text-center"><span>Contacto</span></th>
+                        <th class="text-center"><span>Estatuto</span></th>
+                        <th class="text-center">Remover/Estatuto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ClientsList) {
+                        <tr>
+                            <td class="text-center">
+                                <img src="data:image/jpeg;base64,@System.Convert.ToBase64String(item.Avatar)" width="50" height="50" alt="" />
+                                <span><strong> @item.UserName</strong></span>
+                            </td>
+                            <td class="text-center">@item.Name</td>
+                            <td class="text-center">
+                                <span>@item.Email</span>
+                            </td>
+                            <td class="text-center">
+                                <span>@item.Contact</span>
+                            </td>
+                            <td class="text-center">
+                                <span class="label label-default">@item.Status</span>
+                            </td>
+                            <td class="text-center" style="width: 15%;">
+
+                                <form asp-page-handler="DeleteClient" asp-route-username="@item.UserName" method="post" style="display: inline;">
+                                    <button type="submit" class="myButton">
+                                        <span class="fa-stack">
+                                            <i class="fa fa-minus-square fa-stack-1x fa-inverse"></i>
+                                        </span>
+                                    </button>
+                                </form>
+
+                                @if (item.Status.Equals("Normal")) {
+                                    <form asp-page-handler="MarkAsGolden" asp-route-username="@item.UserName" method="post" style="display: inline;">
+                                        <button type="submit" class="myButton">
+                                            <span class="fa-stack">
+                                                <i class="fa fa-google fa-stack-1x fa-inverse"></i>
+                                            </span>
+                                        </button>
+                                    </form>
+                                }
+                                else {
+                                    <form asp-page-handler="MarkAsNormal" asp-route-username="@item.UserName" method="post" style="display: inline;">
+                                        <button type="submit" class="myButton">
+                                            <span class="fa-stack">
+                                                <i class="fa fa-angle-left fa-stack-1x fa-inverse"></i>
+                                            </span>
+                                        </button>
+                                    </form>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+
+@if (Model.ProfessionalsList != null) {
+
+    <h4>Lista de Profissionais</h4>
+    <hr />
+
+    <div class="container-fluid">
+        <div class="table-responsive">
+            <table id="professionals" class="row-border" style="width:100%">
+                <thead>
+                    <tr>
+                        <th class="text-center"><span>Nickname</span></th>
+                        <th class="text-center"><span>Nome</span></th>
+                        <th class="text-center"><span>Email</span></th>
+                        <th class="text-center"><span>Contacto</span></th>
+                        <th class="text-center"><span>Rating</span></th>
+                        <th class="text-center"><span>Turno</span></th>
+                        <th class="text-center"><span>Data de Registo</span></th>
+                        <th class="text-center">Remover</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ProfessionalsList) {
+                        <tr>
+                            <td class="text-center">
+                                <img src="data:image/jpeg;base64,@System.Convert.ToBase64String(item.Avatar)" width="50" height="50" alt="" />
+                                <span><strong> @item.UserName</strong></span>
+                            </td>
+                            <td class="text-center">@item.Name</td>
+                            <td class="text-center">
+                                <span>@item.Email</span>
+                            </td>
+                            <td class="text-center">
+                                <span>@item.Contact</span>
+                            </td>
+                            <td class="text-center">
+                                <span>@item.Rating</span>
+                            </td>
+                            <td class="text-center">
+                                <span>@item.Shift</span>
+                            </td>
+                            <td class="text-center">
+                                <span>
+                                    @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.RegistrationDate))
+                                </span>
+                            </td>
+                            <td class="text-center" style="width: 15%;">
+
+                                <form asp-page-handler="DeleteProfessional" asp-route-username="@item.UserName" method="post">
+                                    <button type="submit" class="myButton">
+                                        <span class="fa-stack">
+                                            <i class="fa fa-minus-square fa-stack-1x fa-inverse"></i>
+                                        </span>
+                                    </button>
+                                </form>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+
+@if (Model.WorksList != null) {
+
+    <h4>Lista de Trabalhos</h4>
+    <hr />
+
+    <div class="container-fluid">
+        <div class="table-responsive">
+            <table id="works" class="row-border" style="width:100%">
+                <thead>
+                    <tr>
+                        <th class="text-center"><span>ID</span></th>
+                        <th class="text-center"><span>Cliente</span></th>
+                        <th class="text-center"><span>Profissional</span></th>
+                        <th class="text-center"><span>Preço</span></th>
+                        <th class="text-center"><span>Data</span></th>
+                        <th class="text-center"><span>Duração</span></th>
+                        <th class="text-center"><span>Pagamento</span></th>
+                        <th class="text-center"><span>Estado</span></th>
+                        <th class="text-center">Marcar como pago</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.WorksList) {
+                        <tr>
+                            <td class="text-center">
+                                <span>@item.Id</span>
+                            </td>
+                            <td class="text-center">
+                                <span>@item.Client.UserName</span>
+                            </td>
+                            <td class="text-center">
+                                <span>@item.Professional.UserName</span>
+                            </td>
+                            <td class="text-center">
+                                <span>@item.Cost €</span>
+                            </td>
+                            <td class="text-center">
+                                <span>@Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.Date))</span>
+                            </td>
+                            <td class="text-center">
+                                <span>@item.Duration horas</span>
+                            </td>
+                            <td class="text-center">
+                                <span class="label label-default">@item.Payment</span>
+                            </td>
+                            <td class="text-center">
+                                <span class="label label-default">@item.Status</span>
+                            </td>
+
+                            <td class="text-center" style="width: 15%;">
+                                @if (item.Payment.Equals("Não Pago")) {
+                                    <form asp-page-handler="MarkAsPaid" asp-route-id="@item.Id" method="post">
+                                        <button type="submit" class="myButton">
+                                            <span class="fa-stack">
+                                                <i class="fa fa-credit-card fa-stack-1x fa-inverse"></i>
+                                            </span>
+                                        </button>
+                                    </form>
+                                }
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

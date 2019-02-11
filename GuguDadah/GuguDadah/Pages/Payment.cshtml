@@ -1,0 +1,56 @@
+﻿@page
+@model GuguDadah.Pages.Payment
+@{
+    ViewData["Title"] = "Pagamento";
+
+}
+
+@section Scripts
+    {
+
+}
+
+<h4>Pagamento</h4>
+<hr />
+
+
+<div class="row">
+    <div class="col-lg-6 col-lg-offset-3">
+        <div class="well">
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Cost, new { @class = "control-label" })
+                <p>@Model.Cost €</p>
+                <div>
+
+                    <form asp-page-handler="ChoosedPayment" asp-page="Payment" method="post">
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.PaymentType, new { @class = "control-label" })
+                            <div>
+                                <label>
+                                    @Html.RadioButtonFor(m => m.PaymentType, "card")
+                                    Cartão de Crédito
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    @Html.RadioButtonFor(m => m.PaymentType, "money")
+                                    Numerário
+                                </label>
+                            </div>
+                        </div>
+
+                        @Html.ValidationSummary(false)
+
+                        <div class="form-group">
+                            <a class="btn btn-default pull-right" asp-page="/Payment" asp-page-handler="CancelSchedule">Cancelar</a>
+                            <input type="submit" class="btn btn btn-info pull-right" value="Agendar" />
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

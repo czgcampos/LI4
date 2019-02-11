@@ -1,0 +1,42 @@
+﻿@page
+@model GuguDadah.Pages.AdminArea
+@{
+    ViewData["Title"] = "Área do Administrador";
+
+}
+
+@section Scripts
+    {
+
+}
+
+<h4>Área do Administrador</h4>
+<hr />
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-centered">
+            <div class="panel panel-default col-centered">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-3">
+                            <a class="btn btn-info btn-block" asp-page="/RegisterProfessional">Registar Profissional</a>
+                        </div><!--/col-->
+                        <div class="col-xs-12 col-sm-3">
+                            <a class="btn btn-info btn-block" asp-page="/AdminOverview" asp-page-handler="ListOfProfessionals">Lista de Profissionais</a>
+                        </div><!--/col-->
+                        <div class="col-xs-12 col-sm-3">
+                            <a class="btn btn-info btn-block" asp-page="/AdminOverview" asp-page-handler="ListOfClients">Lista de Clientes</a>
+                        </div><!--/col-->
+                        <div class="col-xs-12 col-sm-3">
+                            <a class="btn btn-info btn-block" asp-page="/AdminOverview" asp-page-handler="ListOfWorks">Lista de Trabalhos</a>
+                        </div><!--/col-->
+                        <br />
+                        <br />
+                    </div><!--/row-->
+                    <br />
+                </div><!--/panel-body-->
+            </div><!--/panel-->
+        </div>
+    </div>
+</div>
